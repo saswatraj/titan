@@ -1,0 +1,266 @@
+body{
+    background-color: white;
+}
+
+/** Navigation related styling **/
+.logo-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #2d2d2d;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    margin-bottom: 3px;
+    display: inline-block;
+    padding-top: 30;
+    margin-left: 30;
+}
+
+.logo-subline {
+    color: #919191;
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: lighter;
+    margin-left: 30;
+    position: relative;
+    top: -10;
+}
+
+a .nav-item {
+    color: #2d2d2d !important;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.nav-link {
+    padding-left: 0px;
+    padding-right: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: rgb(145, 145, 145);
+}
+
+.nav-link.active {
+    font-weight: bold;
+    font-weight: 600;
+    color: black;
+}
+
+.nav-link::after {
+    content: " /";
+    font-weight: normal;
+}
+
+.intro-text {
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+    font-size: 26px;
+    color: #919191;
+    line-height: 1.25;
+}
+
+.intro-text::after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #c7ac7f;
+    margin: 20px 0 30px;
+}
+
+.nav-link.last::after {
+    content: "";
+}
+
+.about-link {
+    color: #c7ac7f;
+}
+
+a { color: inherit; } 
+
+.album{
+    float: left;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.album-title{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2d2d2d;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 13px;
+    margin-left: 3px;
+}
+
+.album-subtitle {
+    color: #919191;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+.album-subtitle::before{
+    content: '';
+    display: inline-block;
+    height: 1px;
+    width: 13px;
+    background: #c7ac7f;
+    vertical-align: middle;
+    margin: 0 7px 0 5px;
+}
+
+.album img:hover {
+    -webkit-filter: opacity(0.7); /* Safari 6.0 - 9.0 */
+    filter: opacity(0.7);
+    transition-property: -moz-filter, -ms-filter, -o-filter, -webkit-filter, filter;
+    transition-duration: 0.6s;
+}
+
+.portfolio-social {
+    position: relative;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.portfolio-social .inner {
+    box-shadow: 0 0 9px rgba(82, 84, 86, 0.2);
+}
+
+.portfolio-social a {
+    color: #c7ac7f;
+    transition: color ease 0.125s;
+}
+
+.album-social-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-top: -50px;
+    z-index: 1;
+}
+
+.portfolio-social .icon {
+    display: block;
+    height: 66px;
+    position: relative;
+}
+
+.portfolio-social .text {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.portfolio-social .bg {
+    opacity: 0.5;
+    transition: opacity ease 0.125s;
+    display: block;
+}
+
+.end-text::before {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #d5d5d5;
+    margin: 0 0 30px 20px;
+    clear: both;
+    margin-left: 0px;
+}
+.end-text {
+    color: #919191;
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+    font-size: 26px;
+    line-height: 1.3;
+    margin-top: 0;
+}
+
+.end-text .btn{
+    background: #c7ac7f;
+    border-radius: 0;
+    color: white !important;
+}
+
+.end-text::after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #c7ac7f;
+    margin: 0 0 30px 20px;
+    clear: both;
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+.footer-text {
+    color: #919191;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+#totop {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #555;
+    color: #fff;
+}
+
+/*** Slider syling **/
+.sp-layer #heading {
+    background-color: white;
+    color: black;
+    display:inline-block; 
+    padding-left: 8px;
+    padding-right: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+.sp-layer p {
+    background-color: white;
+    color: black;
+    display:inline-block; 
+    padding-left: 8px;
+    padding-right: 8px;
+    opacity:0.8;
+    font-family: 'Roboto', sans-serif;
+}
+
+.sp-arrow {
+    width: 15px;
+    height: 20px;
+}
+
+/** Admin forms **/
+input[type=text], textarea, .form-group{
+    margin-bottom: 10px;
+}
+
+.form-check {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.image_picker_selector .thumbnail img{
+    width: 300px;
+    height: 250px;
+}

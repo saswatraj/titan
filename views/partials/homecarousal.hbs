@@ -1,0 +1,40 @@
+<div id="demo" class="slider-pro">
+  <div class="sp-slides">
+    <div class="sp-slide">
+      <img class="sp-image" src="images/sample1.jpg">
+      <div class="sp-layer img-overlay" style="width: 60%;" data-horizontal="40" data-vertical="70%" 
+					data-show-transition="right" data-show-delay="1000">
+          <div id="spacing"></div>
+          <div id="text">
+            <h2 id="heading">Lake Chelan</h2>
+            <p>The small lake side village lies along the north shore of Lake Chelan. This quaint agri-artisan community enjoys incredible views that rise over 7,000 feet from the lakeshore. The tranquility, spectacular setting and lush resources have inspired and sustained generations of family businesses, shops, restaurants and wineries.</p>
+          </div>
+      </div>
+    </div>
+    <div class="sp-slide">
+      <img class="sp-image" src="images/sample2.jpg">
+      <div class="sp-layer img-overlay" style="width: 60%; float: right;" data-horizontal="60" data-position="bottomRight" data-vertical="-50%" 
+					data-show-transition="left" data-show-delay="1000">
+          <div id="spacing"></div>
+          <div id="text">
+            <h2 id="heading">Emerald City</h2>
+            <p>Whether you've got a few days or a few hours, Seattle's condensed downtown area and fantastic transportation system make it a wonderful choice for a short jaunt. Surrounded by lakes and acres of lush green forest, the city offers a perfect mix of urban attractions and outdoor recreation.</p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function( $ ) {
+  $('#demo').sliderPro({
+      width: '100%',
+      height: 700,
+      responsive: true,
+      fade: true,
+      fadeDuration: 1200,
+      arrows: true,
+	  buttons: false,
+      fadeArrows: false
+  });
+});
+</script>
