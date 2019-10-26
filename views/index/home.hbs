@@ -15,9 +15,11 @@
                     <div class="row portfolio-introductions">
                 {{/if}}
                 <div class="col-4 album">
-                    <img  class="img-fluid" src="{{this.albumArt}}">
-                    <span class="album-title">{{this.albumTitle}}</span>
-                    <span class="album-subtitle">{{this.albumSubtitle}}</span>
+                    <a href="/album?id={{this.albumId}}">
+                        <img  class="img-fluid" src="{{this.albumArt}}">
+                        <span class="album-title">{{this.albumTitle}}</span>
+                        <span class="album-subtitle">{{this.albumSubtitle}}</span>
+                    </a>
                 </div>
                 {{#ifCond isLastForNth '||' isLast}}
                     </div>

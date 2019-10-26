@@ -247,6 +247,61 @@ a { color: inherit; }
     height: 20px;
 }
 
+/** Album page **/
+.album-page-title {
+    font-size: 30px;
+    line-height: 1;
+    color: #2d2d2d;
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+}
+
+.album-page-subtitle  {
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+    font-size: 26px;
+    color: #919191;
+    line-height: 1.25;
+}
+
+.album-page-images{
+    margin-top:25px;
+}
+
+.album-intro-title {
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1em;
+    line-height: 1.4;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.album-intro-text {
+    margin-bottom: 1.2em;
+    line-height: 1.7;
+    margin-top: -0.5em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.album-page-art {
+    padding:0 10px 20px 0;
+    margin-bottom: 15px;
+}
+
+.back-to-overview {
+    display: block;
+    box-shadow: 0 0 9px rgba(82, 84, 86, 0.2);
+    color: #757575;
+    text-decoration: none;
+    font-weight: 500;
+    line-height: 50px;
+    padding-left: 70px;
+    background: #dedede;
+    margin-bottom: 20px;
+    transition: all ease 0.125s;
+}
+
 /** Admin forms **/
 input[type=text], textarea, .form-group{
     margin-bottom: 10px;

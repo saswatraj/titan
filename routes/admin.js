@@ -7,6 +7,7 @@ var s3Helper = require('../helpers/s3Helper.js');
 var firehoseHelper = require('../helpers/firehoseHelper.js');
 var fbHelper = require('../helpers/facebookHelper.js');
 var esHelper = require('../helpers/elasticSearchHelper.js');
+const uuidv1 = require('uuid/v1');
 
 var router = express.Router();
 
@@ -39,6 +40,12 @@ router.post('/process', uploadFiles, function(req, res, next){
                         + date.getDate() + '/' ;
 
     var esDetails = {} // object to store ddb details
+
+    if(req.body.id){
+        esDetails['albumId'] = req.body.id;
+    }else{
+        esDetails['albumId'] = uuidv1();
+    }
 
     esDetails['caption'] = req.body.caption;
     esDetails['description'] = req.body.description;
@@ -93,7 +100,7 @@ router.post('/process', uploadFiles, function(req, res, next){
 
                                 firehoseHelper.writeToEsStream(esDetails, function(firehoseDetails){
                                     console.log(firehoseDetails);
-                                    res.sendStatus(200);
+                                    res.json({'albumId': esDetails['albumId']});
                                 });
                             });
                         });

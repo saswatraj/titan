@@ -1,0 +1,74 @@
+<div class="container-fluid" style="padding: 0 0 0 0;">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="intro-text">
+                <div class="album-page-title">{{albumTitle}}</div>
+                <div class="album-page-subtitle">{{albumSubtitle}}</div>
+            </div>
+            <img class="img-fluid" src="{{albumLeadArt}}"/>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row album-page-images">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-8">
+                    {{#each albumArts}}
+                    <img class="img-fluid album-page-art" src="{{this}}"/>
+                    {{/each}}
+                </div>
+                <div class="col-4">
+                    <div class="album-intro-title">
+                        {{albumTitle}}
+                    </div>
+                    <div class="album-intro-text">
+                        {{albumDescription}}
+                    </div>
+                    <div class="album-intro-title">
+                        Created on
+                    </div>
+                    <div class="album-intro-text">
+                        April 2019
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 footer-text">
+            <div class="row">
+                <div class="col-8">
+                    <div class="back-to-overview">
+                        Back to overview
+                    </div>
+                </div>
+                <div class="col-4">
+                    
+                </div>
+            </div>
+            <p>© 2019 Saswat Raj / <a href="/admin">Admin</a> 
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
+</div>
+<div id="totop" class="totop active">
+</div>
+<script>
+    $(document).ready(function(){
+        $.scrollUp({
+            scrollName: 'totop', // Element ID
+            topDistance: '300', // Distance from top before showing element (px)
+            topSpeed: 300, // Speed back to top (ms)
+            animation: 'fade', // Fade, slide, none
+            animationInSpeed: 200, // Animation in speed (ms)
+            animationOutSpeed: 200, // Animation out speed (ms)
+            scrollText: 'Scroll to top', // Text for element
+            activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+        });
+    });
+</script>

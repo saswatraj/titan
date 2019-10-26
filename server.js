@@ -25,7 +25,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 app.use(express.static(__dirname + '/node_modules/masonry-layout/dist'));
-// app.use(express.static(__dirname + '/node_modules/slick-carousel/slick'));
+app.use(express.static(__dirname + '/node_modules/dm-file-uploader/dist'));
 app.use(express.static(__dirname + '/assets'));
 
 // routes setup
