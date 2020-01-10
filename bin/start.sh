@@ -2,4 +2,4 @@
 ​
 [ -s "/.nvm/nvm.sh" ] && \. "/.nvm/nvm.sh"
 cd /var/www/html/website
-nohup npm start > /dev/null 2>&1 &
+nohup npm start > /tmp/nodelog.out 2>&1 &
