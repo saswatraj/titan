@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/website #where to store the artifacts
+hooks:
+  ApplicationStart:
+    - location: /bin/www #start script for the website
+      timeout: 300
+      runas: ec2-user

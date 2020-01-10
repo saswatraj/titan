@@ -1,0 +1,105 @@
+<div class="container-fluid" style="padding: 0 0 0 0;">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 intro-text">
+            Photographs by <a class="about-link" href="/about">Saswat Raj</a><br/>
+            "In photography there is a reality so subtle that it becomes more real than reality."
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            {{#everyNth albums 3}}
+                {{#if isModZero}}
+                    <div class="row portfolio-introductions">
+                {{/if}}
+                <div class="col-4 album">
+                    <a href="/album?id={{this.albumId}}">
+                        <img  class="img-fluid" src="{{this.albumArt}}">
+                        <span class="album-title">{{this.albumTitle}}</span>
+                        <span class="album-subtitle">{{this.albumSubtitle}}</span>
+                    </a>
+                </div>
+                {{#ifCond isLastForNth '||' isLast}}
+                    </div>
+                {{/ifCond}}
+            {{/everyNth}}
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row portfolio-social">
+                <div class="col-4 album-social">
+                    <a href="#">
+                        <span class="album-social-content">
+                            <span class="icon">
+                                <img src="images/logo-white-facebook.png"/>
+                            </span>
+                            <span class="text">facebook</span>
+                        </span>
+                    </a>
+                    <img class="bg img-fluid" src="images/fb.jpg">
+                </div>
+                <div class="col-4 album-social">
+                    <a href="#">
+                        <span class="album-social-content">
+                            <span class="icon">
+                                <img src="images/logo-white-instagram.png"/>
+                            </span>
+                            <span class="text">instagram</span>
+                        </span>
+                    </a>
+                    <img class="bg img-fluid" src="images/insta.jpg">
+                </div>
+                <div class="col-4 album-social">
+                    <a href="#">
+                        <span class="album-social-content">
+                            <span class="icon">
+                                <img src="images/logo-white-behance.png"/>
+                            </span>
+                            <span class="text">behance</span>
+                        </span>
+                    </a>
+                    <img class="bg img-fluid" src="images/behance.jpg">
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 end-text">
+            Saswat Raj<br/>
+            <a class="about-link" href="/about">saswatraj@outlook.com</a><br/><br/>
+            <a class="btn">&nbsp;&nbsp;&nbsp;&nbsp;Prints&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 footer-text">
+            <p>© 2019 Saswat Raj / <a href="/admin">Admin</a> 
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
+</div>
+<div id="totop" class="totop active">
+</div>
+<script>
+    $(document).ready(function(){
+        $.scrollUp({
+            scrollName: 'totop', // Element ID
+            topDistance: '300', // Distance from top before showing element (px)
+            topSpeed: 300, // Speed back to top (ms)
+            animation: 'fade', // Fade, slide, none
+            animationInSpeed: 200, // Animation in speed (ms)
+            animationOutSpeed: 200, // Animation out speed (ms)
+            scrollText: 'Scroll to top', // Text for element
+            activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+        });
+    });
+</script>

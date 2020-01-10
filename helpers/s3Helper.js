@@ -1,11 +1,13 @@
 var AWS = require("aws-sdk");
+const fs = require('fs');
 
-var credentials = new AWS.SharedIniFileCredentials({profile: 'saswat-dev'});
-AWS.config.credentials = credentials;
+// if (fs.existsSync('./config.json')) {
+//     AWS.config.loadFromPath('./config.json');
+// }
 
 var s3 = new AWS.S3();
 
-const PHOTO_BUCKET = "saswat-photo-repo";
+const PHOTO_BUCKET = "saswat-photo-repo-v1";
 
 /**
  * 

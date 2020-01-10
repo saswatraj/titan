@@ -4,14 +4,12 @@ var fs = require('fs');
 var upload = multer({ dest: '/tmp/' });
 var imgHelper = require('../helpers/imageHelper.js');
 var s3Helper = require('../helpers/s3Helper.js');
-var firehoseHelper = require('../helpers/firehoseHelper.js');
-var fbHelper = require('../helpers/facebookHelper.js');
 var esHelper = require('../helpers/elasticSearchHelper.js');
 const uuidv1 = require('uuid/v1');
 
 var router = express.Router();
 
-router.get("/newimage", function(req, res, next){
+router.get("/newalbum", function(req, res, next){
     res.render('admin/index', {title: 'Example'});
 });
 
@@ -28,11 +26,6 @@ router.post('/process', uploadFiles, function(req, res, next){
 
     var largeResImg = req.files['largeResImg'][0];
     var rawImg = req.files['rawImg'][0];
-
-    console.log("---both files---");
-    console.log(largeResImg);
-    console.log(rawImg);
-    console.log("----------------");
 
     var date = new Date();
     var keySuffix = date.getFullYear() + '/' 
@@ -52,6 +45,7 @@ router.post('/process', uploadFiles, function(req, res, next){
     esDetails['pathRaw'] = 'raw/' +  keySuffix + rawImg.originalname;
     esDetails['pathSmall'] = 'small/' + keySuffix + largeResImg.originalname;
     esDetails['pathMedium'] = 'medium/' + keySuffix + largeResImg.originalname;
+    esDetails['pathLarge'] = 'large/' + keySuffix + largeResImg.originalname;
     esDetails['mimetype'] = largeResImg.mimetype;
     esDetails['rawMimeType'] = rawImg.mimetype;
     esDetails['isAlbumCover'] = req.body.isAlbumCover === 'on'
@@ -64,49 +58,60 @@ router.post('/process', uploadFiles, function(req, res, next){
 
     // upload raw file to S3
     fs.readFile(rawImg.path, function(err, data){
+        console.log("Uploading raw image !!");
         if(err) console.log(err)
         else {
             s3Helper.uploadBinaryDataToS3(data, {
-                BucketName: 'saswat-photo-repo',
+                BucketName: 'saswat-photo-repo-v1',
                 Key: 'raw/' + keySuffix + rawImg.originalname,
                 Mimetype: rawImg.mimetype,
                 Filename: rawImg.originalname
             }, function(s3UploadData1){
-                console.log(s3UploadData1);
-                console.log("Large img: ");
-                console.log(largeResImg);
-                // scale large resolution image and upload
-                imgHelper.scaleImgSmallBuffer(largeResImg, function(err, smallImg){
-                    s3Helper.uploadBinaryDataToS3(smallImg, {
-                        BucketName: 'saswat-photo-repo',
-                        Key: 'small/' + keySuffix + largeResImg.originalname,
-                        Mimetype: largeResImg.mimetype,
-                        Filename: largeResImg.originalname
-                    }, function(s3UploadData2){
-                        console.log("Uploaded small image");
-                        console.log(s3UploadData2);
-                        // scale to medium and upload
-
-                        imgHelper.scaleImgMediumBuffer(largeResImg, function(err, mediumImg){
-                            s3Helper.uploadBinaryDataToS3(mediumImg, {
-                                BucketName: 'saswat-photo-repo',
-                                Key: 'medium/' + keySuffix + largeResImg.originalname,
-                                Mimetype: largeResImg.mimetype,
-                                Filename: largeResImg.originalname
-                            }, function(s3UploadData3){
-                                console.log("Uploaded medium image");
-                                console.log(s3UploadData3);
-                                // create entry in ddb
-
-                                firehoseHelper.writeToEsStream(esDetails, function(firehoseDetails){
-                                    console.log(firehoseDetails);
-                                    res.json({'albumId': esDetails['albumId']});
+                console.log("Uploading large resolution image !!");
+                fs.readFile(largeResImg.path, function(err, largeImgData){
+                    if(err) console.log(err);
+                    else{
+                        s3Helper.uploadBinaryDataToS3(largeImgData, {
+                            BucketName: 'saswat-photo-repo-v1',
+                            Key: 'large/' + keySuffix + rawImg.originalname,
+                            Mimetype: largeResImg.mimetype,
+                            Filename: largeResImg.originalname
+                        }, function(s3UploadData4){
+                            console.log("Uploading medium resolution image !!");
+                            // scale large resolution image and upload
+                            imgHelper.scaleImgSmallBuffer(largeResImg, function(err, smallImg){
+                                s3Helper.uploadBinaryDataToS3(smallImg, {
+                                    BucketName: 'saswat-photo-repo-v1',
+                                    Key: 'small/' + keySuffix + largeResImg.originalname,
+                                    Mimetype: largeResImg.mimetype,
+                                    Filename: largeResImg.originalname
+                                }, function(s3UploadData2){
+                                    console.log("Uploaded small resolution image");
+                                    imgHelper.scaleImgMediumBuffer(largeResImg, function(err, mediumImg){
+                                        s3Helper.uploadBinaryDataToS3(mediumImg, {
+                                            BucketName: 'saswat-photo-repo-v1',
+                                            Key: 'medium/' + keySuffix + largeResImg.originalname,
+                                            Mimetype: largeResImg.mimetype,
+                                            Filename: largeResImg.originalname
+                                        }, function(s3UploadData3){
+                                            console.log("Uploaded medium resolution image !!");
+                                            /** Insted of write to firehose write directly to es cluster here */
+                                            /** firehoseHelper.writeToEsStream(esDetails, function(firehoseDetails){
+                                                console.log(firehoseDetails);
+                                                res.json({'albumId': esDetails['albumId']});
+                                            }); **/
+                                            esHelper.indexDocument(esDetails, function(data1, data2){
+                                                console.log("Wrote to es");
+                                                console.log("Data1" + data1);
+                                                console.log("Data2" + data2);
+                                            });
+                                        });
+                                    });
                                 });
                             });
                         });
-                    });
+                    }
                 });
-
             });
         }
     });

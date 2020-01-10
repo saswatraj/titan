@@ -1,12 +1,13 @@
 var AWS = require("aws-sdk");
+const fs = require('fs');
 
-var credentials = new AWS.SharedIniFileCredentials({profile: 'saswat-dev'});
-AWS.config.credentials = credentials;
-AWS.config.update({region: 'us-west-2'});
+// if (fs.existsSync('./config.json')) {
+//     AWS.config.loadFromPath('./config.json');
+// }
 
 const FIREHOSE_DELIVERY_STREAM = "photometadata";
 
-var firehose = new AWS.Firehose();
+var firehose = new AWS.Firehose({region: 'us-west-2'});
 
 var writeToEsStream = function(json, callback){
     var params = {

@@ -1,12 +1,13 @@
 var AWS = require("aws-sdk");
+const fs = require('fs');
 
-var credentials = new AWS.SharedIniFileCredentials({profile: 'saswat-dev'});
-AWS.config.credentials = credentials;
-AWS.config.update({region: 'us-west-2'});
+// if (fs.existsSync('./config.json')) {
+//     AWS.config.loadFromPath('./config.json');
+// }
 
 const es = require('elasticsearch').Client({
-    hosts: [ 'https://search-photometadata-qrfom74s5l7mhndnh6fezpxidi.us-west-2.es.amazonaws.com' ],
-    connectionClass: require('http-aws-es')
+    hosts: [ 'http://ec2-18-221-53-201.us-east-2.compute.amazonaws.com:9200' ],
+    log: 'trace'
 });
 
 var searchForKeyword = function(keyword, callback){
@@ -115,8 +116,17 @@ var getAlbumForId = function(id, callback){
     });
 };
 
+var indexDocument = function(document, callback){
+    es.index({
+        index: 'photo-metadata-v1',
+        type: 'Object',
+        body: document
+    }, callback);
+}
+
 module.exports = {
     getAlbumForId: getAlbumForId,
     getAlbums: getAlbums,
-    searchForKeyword: searchForKeyword
+    searchForKeyword: searchForKeyword,
+    indexDocument: indexDocument
 }

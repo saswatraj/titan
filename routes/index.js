@@ -5,7 +5,7 @@ var esHelper = require('../helpers/elasticSearchHelper.js');
 
 router.get('/', function(req, res, next){
     esHelper.getAlbums(function(albumsData){
-        res.render('index/home', {title: 'Example', albums: albumsData});
+        res.render('index/index', {title: 'Portfolio', albums: albumsData});
     });
 });
 
