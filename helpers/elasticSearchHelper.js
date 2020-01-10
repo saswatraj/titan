@@ -6,7 +6,7 @@ const fs = require('fs');
 // }
 
 const es = require('elasticsearch').Client({
-    hosts: [ 'http://ec2-18-221-53-201.us-east-2.compute.amazonaws.com:9200' ],
+    hosts: [ 'http://3.136.104.162:9200' ],
     log: 'trace'
 });
 
