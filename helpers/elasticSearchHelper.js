@@ -105,11 +105,13 @@ var getAlbumForId = function(id, callback){
                     result['albumTitle'] = source['albumTitle']
                     result['albumSubtitle'] = source['albumSubtitle']
                     result['albumDescription'] = source['description']
+                    result['tags'] = source['tags']
                 }else{
                     albumArt.add('/cdn/' + source['pathMedium']);
                 }
             }
-            result['albumArts'] = Array.from(albumArt)
+            result['albumArts'] = Array.from(albumArt);
+            result['albumId'] = id;
             console.log("Search results: " + result);
             callback(result);
         }

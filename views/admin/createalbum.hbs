@@ -1,0 +1,228 @@
+<div class="container create-album">
+    <div class="row">
+        <div class="album-details card-1 page-1 col-12">
+            <form role="form" class="create-album-form" action="/admin/process" method="post">
+                <div class="form-input">
+                    <label>
+                        <input id="albumTitle" name="albumTitle" required>
+                        <span class="placeholder">Title</span>
+                    </label>
+                </div>
+                <div class="form-input">
+                    <label>
+                        <input id="caption" name="caption" required>
+                        <span class="placeholder">Caption</span>
+                    </label>
+                </div>
+                <div class="form-input">
+                    <label>
+                        <textarea id="description" name="description" rows="2"></textarea>
+                        <span class="placeholder">Description</span>
+                    </label>
+                </div>
+                <br/>
+                <input type="text" name="tags" id="tags" placeholder="Tags"/>
+                <!-- hidden fields -->
+                <input class="form-check-input" type="checkbox" name="isAlbum" id="isAlbum" 
+                    checked="checked" style="visibility: hidden;"/>
+                <input class="form-check-input" type="checkbox" name="isAlbumCover" id="isAlbumCover"
+                    checked="checked" style="visibility: hidden;"/>
+                <input type="hidden" name="rawImgName" id="rawImgName"/>
+                <input type="hidden" name="rawImgMimetype" id="rawImgMimetype"/>
+                <input type="hidden" name="rawImg" id="rawImg"/>
+                <input type="hidden" name="largeImgName" id="largeImgName" />
+                <input type="hidden" name="largeImg" id="largeImg" />
+                <input type="hidden" name="largeImgMimetype" id="largeImgMimetype" />
+                <!-- dropzone fields -->
+                <div class="form-input">
+                    
+                </div>
+                <br/>
+                <div class="dropzone" id="dZUploadThumbnailImg">
+                    <div class="dz-message" data-dz-message><span>Upload album thumbnail image</span></div>
+                </div>
+                <br/>
+                <div class="dropzone" id="dZUploadRaw">
+                    <div class="dz-message" data-dz-message><span>Upload raw image</span></div>
+                </div>
+                <br/>
+                <button class="btn orange" id="create-album-btn" type="submit">
+                    <span>Create Album</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="dropzone-template-preview" style="display:none;">
+    <div class="dz-preview dz-file-preview">
+    <div class="dz-details">
+        <div class="dz-filename"><span data-dz-name></span></div>
+        <div class="dz-size" data-dz-size></div>
+        <img data-dz-thumbnail />
+    </div>
+    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+    <div class="dz-success-mark"></div>
+    <div class="dz-error-mark"></div>
+    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+    </div>
+</div>
+
+<script>
+    Dropzone.autoDiscover = false;
+    $(document).ready(function(){
+        //dropzone
+        $('#dZUploadThumbnailImg').dropzone({
+            url: '/dummy',
+            autoProcessQueue: false,
+            previewTemplate: document.getElementById('dropzone-template-preview').innerHTML,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            init: function(){
+                this.on("maxfilesexceeded", function(file){
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
+                this.on("addedfile", function(file){
+                    $('#largeImgMimetype').val(file.type);
+                    $('#largeImgName').val(file.name);
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var imageData = event.target.result;
+                        $('#largeImg').val(imageData);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+
+        $('#dZUploadRaw').dropzone({
+            url: '/dummy',
+            autoProcessQueue: false,
+            previewTemplate: document.getElementById('dropzone-template-preview').innerHTML,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            init: function(){
+                this.on("maxfilesexceeded", function(file){
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
+                this.on("addedfile", function(file){
+                    $('#rawImgMimetype').val(file.type);
+                    $('#rawImgName').val(file.name);
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var imageData = event.target.result;
+                        $('#rawImg').val(imageData);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+
+        //select2
+        var tagSelect = $('#tags').selectize({
+            delimiter: ',',
+            persist: false,
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
+        
+        $('#create-album-btn').click(function(event){
+            event.preventDefault();
+            $.blockUI({ 
+                message: '<div class="blockbg"><img src="/images/loading.gif" /></div>',
+                css: {
+                    backgroundColor: 'none',
+                    border: 'none'
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: '/admin/process',
+                data: $(".create-album-form").serialize(),
+                success: function(data, status, xhr){
+                    console.log("success !!");
+                    window.location = '/admin/updatealbum/' + data.albumId;
+                    $.unblockUI();
+                },
+                error: function(xhr, status, err){
+                    console.log("error !!");
+                    $.unblockUI();
+                }
+            });
+        });
+    });
+</script>
+
+<!-- 
+
+<script>
+    $(document).ready(function(){
+        // search form
+        $('.search').on('submit', function(e){
+            e.preventDefault();
+            var _data = {
+                keyword: $('.search #keyword').val()
+            };
+            $.get({
+                url: '/admin/search',
+                data: _data,
+                cache: false,
+                success : function( data ) {
+                    $('#results').empty();
+                    for(index in data){
+                        var result = data[index];
+                        /**$('#results').append($('<img>',{id:'processedImgTag', 
+                            src: "data:image/png;base64, " + result.data, width:400, height:300}))**/
+                         $('#results').append($("<option></option>")
+                                                .attr("data-img-src","data:image/png;base64, " + result.data)
+                                                .attr("value", result.key)); 
+                    }
+                    $("#results").imagepicker({
+                        hide_select : true,
+                        show_label  : false
+                    });
+                }
+            });
+        });
+
+        //download controls
+        $('#download-small').click(function(){
+            console.log($("#results").data('picker'));
+            var selectedKey = $("#results option:selected").val();
+            window.open('/admin/download?'+ $.param({ key: selectedKey }), '_blank');
+        });
+    });
+</script> -->
+
+<!-- Search template 
+<div class="container" style="padding: 0 0 0 0;">
+    <div class="row">
+        <h3 class="display:block;">Search Image</h3><br/>
+        <form class="search" action="/admin/search" method="get">
+            <input class="form-control" type="text" name="keyword" placeholder="Search for keywords" id="keyword"/>
+            <button class="btn btn-primary" type="submit" name="Search" value="Search" id="search">Search for Images</button>
+        </form>
+    </div>
+    <div class="row">
+        <div>
+            <select id="results" class="d-none">
+                
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="controls">
+            <button class="btn btn-secondary" type="button" id="download-raw">Download Raw</button>
+            <button class="btn btn-secondary" type="button" id="download-small">Download Small</button>
+            <button class="btn btn-secondary" type="button" id="download-medium">Download Medium</button>
+            <button class="btn btn-secondary" type="button" id="download-large">Download Large</button>
+        </div>
+    </div>
+</div>
+-->

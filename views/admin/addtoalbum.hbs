@@ -1,0 +1,166 @@
+<div class="container">
+    <div class="row">
+        <div class="album-preview-add page-1 col-12" >
+            <form role="form" action="/admin/process" id="update-album-form" method="post">
+                <div class="dropzone" id="dZUpload1">
+                    <div class="dz-message" data-dz-message><span>Upload image to album</span></div>
+                </div>
+                <div class="dropzone-previews"></div>
+                <br/>
+                {{log this}}
+                <input type="text" id="albumTitle" name="albumTitle" value={{{albumTitle}}} style="visibility: hidden;" />
+                <input type="text" name="caption" value="{{albumSubtitle}}" style="visibility: hidden;" />
+                <input type="text" name="description" value="" style="visibility: hidden;" />
+                <input type="text" name="tags" value="{{tags}}" style="visibility: hidden;" />
+                <input class="form-check-input" type="checkbox" name="isAlbum" id="isAlbum" 
+                    style="visibility: hidden;"/>
+                <input class="form-check-input" type="checkbox" name="isAlbumCover" id="isAlbumCover"
+                    style="visibility: hidden;"/>
+                <input type="hidden" name="rawImgName" id="rawImgName"/>
+                <input type="hidden" name="rawImgMimetype" id="rawImgMimetype"/>
+                <input type="hidden" name="rawImg" id="rawImg"/>
+                <input type="hidden" name="largeImgName" id="largeImgName" />
+                <input type="hidden" name="largeImg" id="largeImg" />
+                <input type="hidden" name="largeImgMimetype" id="largeImgMimetype" />
+            </form>
+
+            <div class="col-12">
+                <div class="intro-text">
+                    <div class="album-page-title">{{albumTitle}}</div>
+                    <div class="album-page-subtitle">{{albumSubtitle}}</div>
+                </div>
+                <img class="img-fluid" src="{{albumLeadArt}}"/>
+            </div>
+            <div class="col-2"></div>
+            <div class="row album-page-images">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-8" style="margin-left: 13px;" id="p-album-images">
+                            {{#each albumArts}}
+                            <img class="img-fluid album-page-art" src="{{this}}"/>
+                            {{/each}}
+                        </div>
+                        <div class="col-3">
+                            <div class="album-intro-title">
+                                {{albumTitle}}
+                            </div>
+                            <div class="album-intro-text">
+                                {{albumDescription}} 
+                            </div>
+                            <div class="album-intro-title">
+                                Created on
+                            </div>
+                            <div class="album-intro-text">
+                                April 2019
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 footer-text" style="margin-left: 13px;">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="back-to-overview">
+                                Back to overview
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            
+                        </div>
+                    </div>
+                    <p>© 2019 Saswat Raj / <a href="/admin">Admin</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dropzone-template-preview" style="display:none;">
+    <div class="dz-preview dz-file-preview">
+    <div class="dz-details">
+        <div class="dz-filename"><span data-dz-name></span></div>
+        <div class="dz-size" data-dz-size></div>
+        <img data-dz-thumbnail />
+    </div>
+    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+    <div class="dz-success-mark"></div>
+    <div class="dz-error-mark"></div>
+    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+    </div>
+</div>
+
+<script>
+    Dropzone.autoDiscover = false;
+    $(document).ready(function(){
+        var albumConfig = {
+            addImageToAlbum: function(){
+                $.blockUI({ 
+                    message: '<div class="blockbg"><img src="/images/loading.gif" /></div>',
+                    css: {
+                        backgroundColor: 'none',
+                        border: 'none'
+                    }
+                });
+                $.ajax({
+                  type: "POST",
+                  url: '/admin/process',
+                  data: $("#update-album-form").serialize(),
+                  success: function(data, status, xhr){
+                      console.log("success !!");
+                      $.unblockUI();
+                  },
+                  error: function(xhr, status, err){
+                      console.log("error !!");
+                      $.unblockUI();
+                  }
+                });
+            }
+        };
+
+        $('#dZUpload1').dropzone({
+            url: '/dummy',
+            autoProcessQueue: false,
+            previewTemplate: document.getElementById('dropzone-template-preview').innerHTML,
+            addRemoveLinks: false,
+            isRawFileAdded: false,
+            init: function(){
+                var _this = this;
+                this.on("maxfilesexceeded", function(file){
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
+
+                this.on("addedfile", function(file){
+                    var reader = new FileReader();
+                    var fileExt = file.name.split(".").slice(-1)[0];
+                    var rawFileExts = ['dng'];
+                    reader.onload = function(event) {
+                        var imageData = event.target.result;
+                        var albumImageContainer = $('#p-album-images');
+                        var image = $('<img />', {
+                            src: imageData,
+                            class: 'img-fluid album-page-art'
+                        });
+                        if(rawFileExts.includes(fileExt)){
+                            $('#rawImgMimetype').val(file.type);
+                            $('#rawImgName').val(file.name);
+                            $('#rawImg').val(imageData);
+                            albumConfig.isRawFileAdded = true;
+                        }else{
+                            $('#largeImgMimetype').val(file.type);
+                            $('#largeImgName').val(file.name);
+                            $('#largeImg').val(imageData);
+                            albumImageContainer.append(image);
+
+                            if(albumConfig.isRawFileAdded){
+                                albumConfig.addImageToAlbum();
+                                _this.removeAllFiles(true);
+                            }
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    });
+</script>
