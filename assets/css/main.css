@@ -511,3 +511,15 @@ button {
 	color: #919191;
 	line-height: 1.25;
 }
+
+.page {
+	font-family: 'Encode Sans Semi Condensed', sans-serif;
+	font-size: 20px;
+	color: #919191;
+	line-height: 1.25;
+}
+
+.page a {
+	color: #c7ac7f;
+	text-decoration: underline;
+}
