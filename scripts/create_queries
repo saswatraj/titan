@@ -1,0 +1,52 @@
+# create index 
+
+PUT /photo-metadata-v1
+{
+    "mappings": {
+        "properties" : {
+            "albumId" : {
+                "type" : "keyword"
+            },
+            "albumSubtitle" : {
+                "type" : "text"
+            },
+            "albumTitle" : {
+                "type" : "keyword"
+            },
+            "caption" : {
+                "type" : "text"
+            },
+            "description" : {
+                "type" : "text"
+            },
+            "isAlbum" : {
+                "type" : "boolean"
+            },
+            "isAlbumCover" : {
+                "type" : "boolean"
+            },
+            "mimetype" : {
+                "type" : "keyword"
+            },
+            "pathLarge" : {
+                "type" : "keyword"
+            },
+            "pathMedium" : {
+                "type" : "keyword"
+            },
+            "pathRaw" : {
+                "type" : "keyword"
+            },
+            "pathSmall" : {
+                "type" : "keyword"
+            },
+            "rawMimeType" : {
+                "type" : "keyword"
+            },
+            "tags" : {
+                "type" : "text"
+            }
+            }
+        }
+    }
+}

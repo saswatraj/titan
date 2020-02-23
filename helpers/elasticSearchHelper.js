@@ -101,7 +101,7 @@ var getAlbumForId = function(id, callback){
                 var source = hits[index]['_source'];
                 if(source['albumId'] != id) continue;
                 if(source['isAlbumCover']){
-                    result['albumLeadArt'] = '/cdn/' + source['pathMedium'],
+                    result['albumLeadArt'] = '/cdn/' + source['pathLarge'],
                     result['albumTitle'] = source['albumTitle']
                     result['albumSubtitle'] = source['albumSubtitle']
                     result['albumDescription'] = source['description']
@@ -121,7 +121,7 @@ var getAlbumForId = function(id, callback){
 var indexDocument = function(document, callback){
     es.index({
         index: 'photo-metadata-v1',
-        type: 'Object',
+        type: '_doc',
         body: document
     }, callback);
 }

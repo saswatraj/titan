@@ -1,0 +1,11 @@
+# Get document via album id
+GET photo-metadata-v1/_search
+{
+  "query": {
+    "term": {
+      "albumId": {
+        "value": "41b19110-5606-11ea-8232-512c66d482b8"
+      }
+    }
+  }
+}

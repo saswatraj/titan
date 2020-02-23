@@ -1,0 +1,14 @@
+# delete index
+DELETE /photo-metadata-v1
+
+# delete an album by id
+POST photo-metadata-v1/_delete_by_query
+{
+  "query": {
+    "term": {
+      "albumId": {
+        "value": "41b19110-5606-11ea-8232-512c66d482b8"
+      }
+    }
+  }
+}

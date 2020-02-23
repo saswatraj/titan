@@ -99,11 +99,11 @@ router.post('/process', function(req, res, next){
                                             Filename: params.largeImgName
                                         },function(smallImageUploadMetadata){
                                             console.log("Uploaded small image !!");
-                                            //write details to elastic search
-                                            // esHelper.indexDocument(esDetails, 
-                                            //     function(data1, data2){
-                                            //     console.log("Written to es index !!");
-                                            // });
+                                            // write details to elastic search
+                                            esHelper.indexDocument(esDetails, 
+                                                function(data1, data2){
+                                                console.log("Written to es index !!");
+                                            });
 
                                             res.json({
                                                 albumId: esDetails['albumId']
