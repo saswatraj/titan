@@ -3,15 +3,38 @@
         <div class="col-2"></div>
         <div class="col-8">
             <div class="intro-text">
-                <div class="contact-page-title">Contact</div>
+                <div class="page-title">Contact</div>
             </div>
-            <div class="album-page-subtitle">
+            <div class="page-subtitle">
                 Saswat Raj<br/>
                 <a class="about-link" href="/about">saswatraj@outlook.com</a>
+            </div>
+            <div class="contact-form">
                 <div id="map" class="map"></div><br/>
-                <div>
-                    For prints, inquiries, or any other questions or comments, please contact me through this form and I will do my best to get back to you.
-                </div>
+                For prints, inquiries, or any other questions or comments, please contact me through this form 
+                and I will do my best to get back to you. <br/><br/>
+                <form>
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMessage">Your Message</label>
+                        <textarea class="form-control" name="inputMessage" id="inputMessage" placeholder="The more I know, the better I can help you"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMessage">How can I reach out to you ?</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" class="form-control" name="inputName" id="inputName" placeholder="Name">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" name="inputPhone" id="inputPhone" placeholder="Phone (optional)">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary themed">Submit</button>
+                </form>
             </div>
         </div>
         <div class="col-2"></div>
@@ -45,5 +68,24 @@
             source: vectorSource,
         });
         map.addLayer(markerVectorLayer);
+
+        //submit
+        $(".contact-form form").submit(function( event ) {
+            event.preventDefault();
+            var formData =$(this).serialize();
+            $.ajax({
+                  type: "POST",
+                  url: '/contact/sendMessage',
+                  data: formData,
+                  success: function(data, status, xhr){
+                    console.log("success !!");
+                    $.unblockUI();
+                  },
+                  error: function(xhr, status, err){
+                    console.log("error !!");
+                    $.unblockUI();
+                  }
+            });
+        });
     });
 </script>
