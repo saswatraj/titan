@@ -8,16 +8,16 @@
         <!--<img src="/images/sign.png" width="150" height="30" alt="" style="margin-top:10px;margin-bottom:10px;">-->
         <ul class="nav justify-content-end">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Work</a>
+                <a class="nav-link {{#ifCond activeTab '==' 'work'}} active {{/ifCond}}" href="/">Work</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Projects</a>
+                <a class="nav-link {{#ifCond activeTab '==' 'projects'}} active {{/ifCond}}" href="#">Projects</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Prints</a>
+                <a class="nav-link {{#ifCond activeTab '==' 'prints'}} active {{/ifCond}}" href="/prints">Prints</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link last" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+                <a class="nav-link last {{#ifCond activeTab '==' 'contact'}} active {{/ifCond}}" href="/contact" tabindex="-1" aria-disabled="true">Contact</a>
             </li>
         </ul>
     </div>

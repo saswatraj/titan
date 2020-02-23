@@ -120,6 +120,7 @@ router.post('/process', function(req, res, next){
 router.get('/updatealbum/:id', function(req, res, next){
     var ablumId = req.params.id;
     esHelper.getAlbumForId(ablumId, function(result){
+        result['activeTab'] = 'work';
         res.render('admin/addtoalbum', result);
     });
 });

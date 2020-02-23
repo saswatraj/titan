@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var cdnRouter = require('./routes/cdn');
+var printRouter = require('./routes/prints');
+var contactRouter = require('./routes/contact');
 
 var app = express();
 app.use(bodyParser.json()); // support json encoded bodies
@@ -32,5 +34,7 @@ app.use(express.static(__dirname + '/assets'));
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/cdn', cdnRouter);
+app.use('/prints', printRouter);
+app.use('/contact', contactRouter);
 
 module.exports = app;

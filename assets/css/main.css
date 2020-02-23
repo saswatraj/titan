@@ -540,3 +540,15 @@ button {
 	background-color: #f6f6f6;
 }
 
+/** Contact page **/
+.contact-page-title {
+	font-size: 45px;
+	color: #c7ac7f;
+	line-height: 1;
+	margin-bottom: 15px;
+}
+
+.ol-overlaycontainer-stopevent .ol-attribution {
+	display: none;
+}
+
