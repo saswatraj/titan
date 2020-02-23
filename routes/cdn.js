@@ -14,7 +14,7 @@ var awsCloudFrontSigner = new AWS.CloudFront.Signer(KEY_PAIR_ID, PRIVATE_KEY);
 router.get("*", function(req, res, next){
     var currentTime = new Date();
     var expires = new Date();
-    expires.setMinutes(currentTime.getMinutes() + 5);
+    expires.setMinutes(currentTime.getMinutes() + 1);
 
     var url = CLOUDFRONT_DOMAIN + req.path;
     awsCloudFrontSigner.getSignedUrl({
