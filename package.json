@@ -29,7 +29,7 @@
     "fb": "^2.0.0",
     "http-aws-es": "^6.0.0",
     "jimp": "^0.8.5",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "masonry-layout": "^4.2.2",
     "mdbootstrap": "^4.11.0",
     "multer": "^1.4.2",
